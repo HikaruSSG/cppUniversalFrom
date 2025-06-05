@@ -1,0 +1,5 @@
+if(EXISTS "/home/hikaru/Desktop/C++ Project/cppUniversalFrom/build/test_main[1]_tests.cmake")
+  include("/home/hikaru/Desktop/C++ Project/cppUniversalFrom/build/test_main[1]_tests.cmake")
+else()
+  add_test(test_main_NOT_BUILT test_main_NOT_BUILT)
+endif()

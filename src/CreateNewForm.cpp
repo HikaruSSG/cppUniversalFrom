@@ -9,8 +9,8 @@
 std::string sanitizeFilename(const std::string& name) {
     std::string sanitized = name;
     for (char& c : sanitized) {
-        if (!isalnum(c)) {
-            c = '_'; // Replace non-alphanumeric characters with underscore
+        if (!isalnum(c) && c != '_') {
+            c = '_';  // Replace non-alphanumeric characters with underscore
         }
     }
     return sanitized;
@@ -24,7 +24,21 @@ void createNewForm() {
     std::getline(std::cin, formName);
 
     std::string sanitizedFormName = sanitizeFilename(formName);
+    std::cout << "Sanitized form name: " << sanitizedFormName << std::endl;
     std::string formFilePath = "Forms/" + sanitizedFormName + ".form";
+
+    // Check if the form already exists
+    std::ifstream formFileCheck(formFilePath);
+    if (formFileCheck.good()) {
+        std::cout << "Warning: Form '" << formName << "' already exists. Overwrite? (y/n): ";
+        char overwriteChoice;
+        std::cin >> overwriteChoice;
+        std::cin.ignore(); // Clear the buffer
+        if (overwriteChoice != 'y') {
+            std::cout << "Form creation cancelled.\n";
+            return;
+        }
+    }
 
     std::ofstream outFile(formFilePath);
     if (!outFile.is_open()) {
